@@ -1,3 +1,4 @@
+from typing import List
 def get_learning_path_prompt(user_input: dict) -> str:
     return f"""You are an expert academic counselor and curriculum designer. Create a personalized, time-bound learning roadmap.
 
