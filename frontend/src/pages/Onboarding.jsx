@@ -104,10 +104,10 @@ const Onboarding = () => {
 
                     {/* Main Headline - Centered and Beautiful */}
                     <div className="text-center mb-8 animate-slide-up">
-                        <h1 className="text-5xl md:text-7xl lg:text-8xl font-black mb-6 leading-tight">
+                        <h1 className="text-4xl md:text-6xl lg:text-7xl font-black mb-6 leading-tight">
                             <span className="block text-white mb-2">Your Personal</span>
                             <span className="block gradient-text-vibrant">Learning Journey</span>
-                            <span className="block text-white text-3xl md:text-4xl lg:text-5xl mt-4 font-semibold">
+                            <span className="block text-white text-2xl md:text-3xl lg:text-4xl mt-4 font-semibold">
                                 Starts Here
                             </span>
                         </h1>
