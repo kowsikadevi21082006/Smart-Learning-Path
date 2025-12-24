@@ -1,0 +1,294 @@
+# =============================================================================
+# SECURITY - NEVER COMMIT THESE FILES
+# =============================================================================
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+.env.development
+.env.production
+.env.test
+*.env
+
+# API Keys and Secrets
+secrets.yaml
+secrets.json
+credentials.json
+service-account*.json
+
+# SSH Keys
+*.pem
+*.key
+id_rsa
+id_rsa.pub
+
+
+# =============================================================================
+# PYTHON / BACKEND
+# =============================================================================
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual Environments
+venv/
+env/
+ENV/
+.venv
+backend/venv/
+backend/env/
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+
+# =============================================================================
+# NODE.JS / FRONTEND
+# =============================================================================
+
+# Dependencies
+node_modules/
+frontend/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Production builds
+dist/
+dist-ssr/
+build/
+.next/
+out/
+
+# Environment variables (frontend)
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Testing
+coverage/
+
+
+# =============================================================================
+# DOCKER
+# =============================================================================
+
+# Docker volumes
+docker-compose.override.yml
+.dockerignore
+
+
+# =============================================================================
+# DATABASES
+# =============================================================================
+
+# SQLite
+*.db
+*.sqlite
+*.sqlite3
+
+# PostgreSQL
+*.sql
+*.dump
+
+# MongoDB
+*.bson
+
+
+# =============================================================================
+# LOGS
+# =============================================================================
+
+*.log
+logs/
+*.log.*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+
+# =============================================================================
+# OPERATING SYSTEM
+# =============================================================================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+
+
+# =============================================================================
+# IDEs and EDITORS
+# =============================================================================
+
+# VSCode
+.vscode/
+*.code-workspace
+
+# PyCharm
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+
+# Emacs
+*~
+\#*\#
+.\#*
+
+
+# =============================================================================
+# TEMPORARY FILES
+# =============================================================================
+
+*.tmp
+*.temp
+*.bak
+*.cache
+*.orig
+
+
+# =============================================================================
+# PROJECT SPECIFIC
+# =============================================================================
+
+# Local testing files
+test_data/
+tmp/
+temp/
+
+# Generated documentation
+docs/_build/
+
+# Backup files
+*.backup
+backup/
+
+# Data files (if not needed in repo)
+data/
+datasets/
+*.csv
+*.xlsx
+*.json
+!package.json
+!package-lock.json
+!tsconfig.json
+
+# Model files (if large)
+*.pkl
+*.h5
+*.pth
+*.onnx
+
+# Media files (if not needed)
+*.mp4
+*.avi
+*.mp3
+*.wav
+
+node modules
