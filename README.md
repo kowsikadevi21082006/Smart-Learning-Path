@@ -1,6 +1,6 @@
 # 📚 Smart Learning Path Generator
 
-🔗 **Live Demo:** https://smart-learning-path.vercel.app
+🔗 **Live Demo:** https://smart-learning-path-jwdb.vercel.app
 
 ## 🚀 Overview
 **Smart Learning Path Generator** is an AI-powered EdTech application that acts as a **virtual academic counselor**.  
