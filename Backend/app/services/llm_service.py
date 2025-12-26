@@ -1,26 +1,30 @@
-import anthropic
+import google.generativeai as genai
 import json
 from app.config import get_settings
 
 settings = get_settings()
 
+# Configure Gemini API
+genai.configure(api_key=settings.gemini_api_key)
+
 class LLMService:
     def __init__(self):
-        self.client = anthropic.Anthropic(api_key=settings.anthropic_api_key)
+        self.model = genai.GenerativeModel(settings.gemini_model)
     
     async def generate_completion(self, prompt: str, max_tokens: int = 4000) -> dict:
-        """Generate completion from Claude API"""
+        """Generate completion from Gemini API"""
         try:
-            message = self.client.messages.create(
-                model=settings.claude_model,
-                max_tokens=max_tokens,
-                messages=[
-                    {"role": "user", "content": prompt}
-                ]
+            # Generate response using Gemini
+            response = self.model.generate_content(
+                prompt,
+                generation_config=genai.types.GenerationConfig(
+                    max_output_tokens=max_tokens,
+                    temperature=0.7
+                )
             )
             
             # Extract text content
-            response_text = message.content[0].text
+            response_text = response.text
             
             # Parse JSON response
             # Remove markdown code blocks if present

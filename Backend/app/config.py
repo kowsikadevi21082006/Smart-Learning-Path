@@ -4,7 +4,7 @@ from typing import List
 
 class Settings(BaseSettings):
     # ========== REQUIRED SETTINGS ==========
-    anthropic_api_key: str
+    gemini_api_key: str
     mongodb_atlas_uri: str
     
     # ========== OPTIONAL WITH DEFAULTS ==========
@@ -24,7 +24,7 @@ class Settings(BaseSettings):
     cors_origins: str = "http://localhost:3000,http://localhost:5173"
     
     # LLM Settings
-    claude_model: str = "claude-sonnet-4-20250514"
+    gemini_model: str = "gemini-1.5-flash-latest"
     max_tokens: int = 4000
     
     @property
