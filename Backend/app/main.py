@@ -14,7 +14,9 @@ app = FastAPI(
 # CORS - Now using the property method
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.cors_origins_list,  # 👈 Changed this
+    allow_origins=[
+        "https://smart-learning-path-8ted.vercel.app"  # frontend URL
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -35,3 +37,4 @@ async def root():
 @app.get("/health")
 async def health_check():
     return {"status": "healthy"}
+
