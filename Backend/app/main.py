@@ -1,23 +1,37 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import Response
+from app.config import get_settings
+from app.api.routes import learning_paths, quiz
 
-app = FastAPI()
+settings = get_settings()
 
-# ✅ CORS — allow EVERYTHING (TEMPORARY)
+app = FastAPI(
+    title="Smart Learning Path Generator API",
+    description="Dynamic learning roadmap generator powered by AI",
+    version=settings.api_version
+)
+
+# CORS - Allow all for maximum compatibility during debug
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
-    allow_credentials=False,
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# ✅ OPTIONS handler (THIS IS THE KEY FIX)
-@app.options("/{path:path}")
-async def options_handler(path: str):
-    return Response(status_code=200)
+# Include routers
+app.include_router(learning_paths.router, prefix=f"/{settings.api_version}")
+app.include_router(quiz.router, prefix=f"/{settings.api_version}")
 
-@app.post("/learning-paths/generate")
-async def generate_learning_path(payload: dict):
-    return {"status": "CORS WORKING"}
+@app.get("/")
+async def root():
+    return {
+        "message": "Smart Learning Path Generator API",
+        "version": settings.api_version,
+        "status": "running"
+    }
+
+@app.get("/health")
+async def health_check():
+    return {"status": "healthy"}
