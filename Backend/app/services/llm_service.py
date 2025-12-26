@@ -1,30 +1,29 @@
-import google.generativeai as genai
+from cerebras.cloud.sdk import Cerebras
 import json
 from app.config import get_settings
 
 settings = get_settings()
 
-# Configure Gemini API
-genai.configure(api_key=settings.gemini_api_key)
-
 class LLMService:
     def __init__(self):
-        self.model = genai.GenerativeModel(settings.gemini_model)
+        self.client = Cerebras(api_key=settings.cerebras_api_key)
+        self.model = settings.cerebras_model
     
     async def generate_completion(self, prompt: str, max_tokens: int = 4000) -> dict:
-        """Generate completion from Gemini API"""
+        """Generate completion from Cerebras API"""
         try:
-            # Generate response using Gemini
-            response = self.model.generate_content(
-                prompt,
-                generation_config=genai.types.GenerationConfig(
-                    max_output_tokens=max_tokens,
-                    temperature=0.7
-                )
+            # Generate response using Cerebras (OpenAI-compatible API)
+            response = self.client.chat.completions.create(
+                model=self.model,
+                messages=[
+                    {"role": "user", "content": prompt}
+                ],
+                max_tokens=max_tokens,
+                temperature=0.7
             )
             
             # Extract text content
-            response_text = response.text
+            response_text = response.choices[0].message.content
             
             # Parse JSON response
             # Remove markdown code blocks if present

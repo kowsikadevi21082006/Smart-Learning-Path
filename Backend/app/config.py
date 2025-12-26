@@ -4,7 +4,7 @@ from typing import List
 
 class Settings(BaseSettings):
     # ========== REQUIRED SETTINGS ==========
-    gemini_api_key: str
+    cerebras_api_key: str
     mongodb_atlas_uri: str
     
     # ========== OPTIONAL WITH DEFAULTS ==========
@@ -23,8 +23,8 @@ class Settings(BaseSettings):
     # CORS - can be a string or list
     cors_origins: str = "http://localhost:3000,http://localhost:5173"
     
-    # LLM Settings
-    gemini_model: str = "gemini-1.5-flash-latest"
+    # LLM Settings - Cerebras
+    cerebras_model: str = "llama-3.3-70b"
     max_tokens: int = 4000
     
     @property
