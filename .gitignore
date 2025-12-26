@@ -36,6 +36,7 @@ __pycache__/
 
 # Virtual Environments
 venv/
+venv_fix/
 env/
 ENV/
 .venv
