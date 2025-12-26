@@ -46,7 +46,18 @@ apiClient.interceptors.response.use(
  */
 export const generateLearningPath = async (userData) => {
     try {
-        const response = await apiClient.post('/learning-paths/generate', userData);
+        // Transform camelCase keys to snake_case for backend
+        const backendPayload = {
+            current_skills: Array.isArray(userData.currentSkills)
+                ? userData.currentSkills.join(', ')
+                : userData.currentSkills || '',
+            target_goal: userData.targetGoal,
+            hours_per_week: parseInt(userData.hoursPerWeek),
+            duration_weeks: parseInt(userData.durationWeeks),
+            preferred_learning_style: userData.preferredLearningStyle || 'hands-on'
+        };
+
+        const response = await apiClient.post('/learning-paths/generate', backendPayload);
         return response;
     } catch (error) {
         console.error('Error generating learning path:', error);
@@ -79,7 +90,7 @@ export const saveProgress = async (progressData) => {
         console.warn('saveProgress endpoint not implemented in backend');
         // const response = await apiClient.post('/save-progress', progressData);
         // return response;
-        return { success: true }; 
+        return { success: true };
     } catch (error) {
         console.error('Error saving progress:', error);
         throw error;
@@ -91,8 +102,8 @@ export const saveProgress = async (progressData) => {
  */
 export const getProgress = async (userId) => {
     try {
-         // ENDPOINT NOT YET IMPLEMENTED IN BACKEND
-         console.warn('getProgress endpoint not implemented in backend');
+        // ENDPOINT NOT YET IMPLEMENTED IN BACKEND
+        console.warn('getProgress endpoint not implemented in backend');
         // const response = await apiClient.get(`/progress/${userId}`);
         // return response;
         return { success: true, progress: [] };

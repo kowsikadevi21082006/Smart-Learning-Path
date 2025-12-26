@@ -4,7 +4,7 @@ import { Sparkles, Zap, Target, TrendingUp } from 'lucide-react';
 import OnboardingForm from '../components/OnboardingForm';
 import { Button, Loader } from '../components/ui';
 import { useApp } from '../context/AppContext';
-import { mockLearningPath } from '../utils/mockData';
+import { generateLearningPath } from '../services/apiService';
 
 /**
  * Onboarding Page
@@ -22,17 +22,79 @@ const Onboarding = () => {
         setLoading(true);
 
         try {
-            // Simulate API call to generate learning path
-            // In production, replace with: await generateLearningPath(userData);
-            await new Promise(resolve => setTimeout(resolve, 2000));
+            // Call API to generate learning path
+            console.log("Generating learning path for:", userData);
+            const response = await generateLearningPath(userData);
+            console.log("API Response:", response);
 
-            // Use mock data for now
-            setLearningPath(mockLearningPath);
+            // Helper to map backend week structure to frontend
+            const mapWeeks = (weeks) => {
+                return (weeks || []).map((week, index) => ({
+                    id: `week-${week.week_number || index + 1}`,
+                    weekNumber: week.week_number || index + 1,
+                    title: week.topic || `Week ${index + 1}`,
+                    topics: week.subtopics || [],
+                    whyThisFirst: week.why_this_first || '',
+                    estimatedHours: week.estimated_hours || 0,
+                    resources: (week.resources || []).map((res, resIndex) => ({
+                        id: `res-${index}-${resIndex}`,
+                        title: res.title,
+                        type: res.type,
+                        searchString: res.search_query,
+                        estimatedTime: res.estimated_time,
+                        url: res.url
+                    }))
+                }));
+            };
+
+            // Helper to extract aggregated fields
+            const getOutcomes = (weeks) => {
+                return (weeks || []).flatMap(w => w.key_takeaways || []);
+            };
+
+            const getPrerequisites = (weeks) => {
+                return [...new Set((weeks || []).flatMap(w => w.prerequisites_covered || []))];
+            };
+
+            let learningPathData = null;
+
+            // Handle response based on structure
+            if (response.weekly_breakdown) {
+                // Direct object response
+                learningPathData = {
+                    goal: response.path_title || userData.targetGoal,
+                    weeks: mapWeeks(response.weekly_breakdown),
+                    totalHours: response.total_hours,
+                    prerequisites: getPrerequisites(response.weekly_breakdown),
+                    outcomes: getOutcomes(response.weekly_breakdown),
+                    finalProject: response.final_project
+                };
+            }
+            // If response is wrapped in { success: true, learning_path: ... }
+            else if (response.learning_path) {
+                const path = response.learning_path;
+                learningPathData = {
+                    goal: path.path_title || userData.targetGoal,
+                    weeks: mapWeeks(path.weekly_breakdown),
+                    totalHours: path.total_hours,
+                    prerequisites: getPrerequisites(path.weekly_breakdown),
+                    outcomes: getOutcomes(path.weekly_breakdown),
+                    finalProject: path.final_project
+                };
+            } else {
+                console.error("Unexpected response format:", response);
+                alert("Received unexpected data from AI. Please try again.");
+            }
+
+            if (learningPathData) {
+                setLearningPath(learningPathData);
+            }
 
             // Navigate to dashboard
             navigate('/dashboard');
         } catch (error) {
             console.error('Error generating learning path:', error);
+            // Optional: Show error to user
         } finally {
             setLoading(false);
         }

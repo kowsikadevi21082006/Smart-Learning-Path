@@ -1,7 +1,14 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Button, Loader } from './ui';
-import { mockQuizData } from '../utils/mockData';
+
+/**
+ * QuizModal Component
+ * 
+ * Interactive quiz interface with multiple-choice questions.
+ * Shows immediate feedback and final score.
+ */
+import { generateQuiz } from '../services/apiService';
 
 /**
  * QuizModal Component
@@ -10,13 +17,45 @@ import { mockQuizData } from '../utils/mockData';
  * Shows immediate feedback and final score.
  */
 const QuizModal = ({ isOpen, onClose, week }) => {
+    const [questions, setQuestions] = useState([]);
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [selectedAnswers, setSelectedAnswers] = useState({});
     const [showResults, setShowResults] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    // Get quiz questions (mock data for now)
-    const questions = mockQuizData[week?.id] || [];
+    // Fetch quiz questions when modal opens
+    useEffect(() => {
+        const fetchQuiz = async () => {
+            if (isOpen && week) {
+                setLoading(true);
+                try {
+                    const response = await generateQuiz(week.weekNumber, week.topics);
+                    // Map backend response to frontend format
+                    if (response.questions) {
+                        const mappedQuestions = response.questions.map((q, index) => ({
+                            id: `q-${index}`,
+                            question: q.question,
+                            options: q.options.map(o => o.text),
+                            correctAnswer: q.options.findIndex(o => o.is_correct),
+                            explanation: q.explanation
+                        }));
+                        setQuestions(mappedQuestions);
+                    }
+                } catch (error) {
+                    console.error("Failed to generate quiz:", error);
+                    // Fallback to empty or error state
+                } finally {
+                    setLoading(false);
+                    // Reset state
+                    setCurrentQuestion(0);
+                    setSelectedAnswers({});
+                    setShowResults(false);
+                }
+            }
+        };
+
+        fetchQuiz();
+    }, [isOpen, week]);
 
     // Handle answer selection
     const selectAnswer = (questionId, answerIndex) => {
